@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"os/signal"
@@ -16,7 +15,13 @@ import (
 var (
 	CmdHandler *config.CommandHandler
 	Token      string
+	PREFIX     string
 )
+
+func init() {
+	Token = ""
+	PREFIX = "/"
+}
 
 func main() {
 	CmdHandler = config.NewCommandHandler()
@@ -41,7 +46,6 @@ func main() {
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
 	<-sc
 
-	// Cleanly close down the Discord session.
 	discord.Close()
 }
 
@@ -52,19 +56,22 @@ func commandHandler(discord *discordgo.Session, message *discordgo.MessageCreate
 		return
 	}
 	content := message.Content
-
-	fmt.Println(content)
+	if len(content) <= len(PREFIX) {
+		return
+	}
+	if content[:len(PREFIX)] != PREFIX {
+		return
+	}
 
 	args := strings.Fields(content)
-	command, found := CmdHandler.Get("/help")
+	name := strings.ToLower(args[0])
+	command, found := CmdHandler.Get(name)
 	if !found {
 		return
 	}
+
 	channel, err := discord.State.Channel(message.ChannelID)
 	if err != nil {
-		fmt.Println("Error getting channel,", err)
-		msg, _ := json.Marshal(message)
-		fmt.Println("Message ,", string(msg))
 		fmt.Println("ChannelId ,", message.ChannelID)
 		return
 	}

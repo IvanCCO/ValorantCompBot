@@ -15,7 +15,6 @@ type Context struct {
 	Message      *discordgo.MessageCreate
 	Args         []string
 
-	Conf       *Config
 	CmdHandler *CommandHandler
 }
 
@@ -39,18 +38,4 @@ func (ctx Context) Reply(content string) *discordgo.Message {
 		return nil
 	}
 	return msg
-}
-
-func (ctx *Context) GetVoiceChannel() *discordgo.Channel {
-	if ctx.VoiceChannel != nil {
-		return ctx.VoiceChannel
-	}
-	for _, state := range ctx.Guild.VoiceStates {
-		if state.UserID == ctx.User.ID {
-			channel, _ := ctx.Discord.State.Channel(state.ChannelID)
-			ctx.VoiceChannel = channel
-			return channel
-		}
-	}
-	return nil
 }
