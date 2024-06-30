@@ -13,12 +13,15 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-var CmdHandler *config.CommandHandler
+var (
+	CmdHandler *config.CommandHandler
+	Token      string
+)
 
 func main() {
 	CmdHandler = config.NewCommandHandler()
 	registerCommands()
-	discord, err := discordgo.New("Bot " + "MTI1Njk3OTMxNTA1MzE3MDc4MA.G0FboV._wtHoAuzST8o_uGW0XpO4gkG2WvBMMvpk3XW7U")
+	discord, err := discordgo.New("Bot " + Token)
 	if err != nil {
 		fmt.Println("Error creating discord session,", err)
 		return
