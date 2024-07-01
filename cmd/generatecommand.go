@@ -1,13 +1,23 @@
 package cmd
 
 import (
-	"bytes"
+	"fmt"
 
 	"github.com/IvanCCO/ValorantCompBot/config"
+	"github.com/IvanCCO/ValorantCompBot/valorant"
 )
 
-func GenerateCommand(ctx config.Context) {
-	buffer := bytes.NewBufferString("Choose Valorant Agent composition: \n")
-	str := buffer.String()
-	ctx.Reply(str[:len(str)-2])
+func RandomCommand(ctx config.Context) {
+	ctx.Reply(mockedValorantComp())
+}
+
+func mockedValorantComp() string {
+	agents := valorant.GetRandomCharacters(5)
+	result := ""
+
+	for i, agent := range agents {
+		result += fmt.Sprintf("%d. %s\n", i+1, agent)
+	}
+
+	return result
 }

@@ -20,7 +20,7 @@ var (
 
 func init() {
 	Token = ""
-	PREFIX = "/"
+	PREFIX = "!V"
 }
 
 func main() {
@@ -28,7 +28,7 @@ func main() {
 	registerCommands()
 	discord, err := discordgo.New("Bot " + Token)
 	if err != nil {
-		fmt.Println("Error creating discord session,", err)
+		fmt.Println("error creating discord session,", err)
 		return
 	}
 	discord.AddHandler(commandHandler)
@@ -50,7 +50,6 @@ func main() {
 }
 
 func commandHandler(discord *discordgo.Session, message *discordgo.MessageCreate) {
-	// Skipa caso o produtor da mensagem seja o próprio BOT
 	user := message.Author
 	if user.ID == discord.State.User.ID || user.Bot {
 		return
@@ -64,7 +63,7 @@ func commandHandler(discord *discordgo.Session, message *discordgo.MessageCreate
 	}
 
 	args := strings.Fields(content)
-	name := strings.ToLower(args[0])
+	name := strings.ToLower(args[1])
 	command, found := CmdHandler.Get(name)
 	if !found {
 		return
@@ -87,5 +86,7 @@ func commandHandler(discord *discordgo.Session, message *discordgo.MessageCreate
 }
 
 func registerCommands() {
-	CmdHandler.Register("/help", cmd.HelpCommand, "Gives you this help message!")
+	CmdHandler.Register("sobre", cmd.AboutCommand, "Sobre o ValorantCompBot")
+	CmdHandler.Register("ajuda", cmd.HelpCommand, "Mostra os comandos disponíveis e sua descrição")
+	CmdHandler.Register("aleatorio", cmd.RandomCommand, "Composição aleatória de Valorant - Atualmente mocado")
 }
