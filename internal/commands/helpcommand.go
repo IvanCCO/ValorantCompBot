@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/IvanCCO/ValorantCompBot/config"
+	"github.com/IvanCCO/ValorantCompBot/internal/config"
 )
 
 func HelpCommand(ctx config.Context) {

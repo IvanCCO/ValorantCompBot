@@ -1,7 +1,7 @@
 package commands
 
 import (
-	"github.com/IvanCCO/ValorantCompBot/config"
+	"github.com/IvanCCO/ValorantCompBot/internal/config"
 )
 
 const ABOUT_MESSAGE = `

@@ -2,14 +2,16 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
 
-	"github.com/IvanCCO/ValorantCompBot/config"
 	"github.com/IvanCCO/ValorantCompBot/internal/commands"
+	"github.com/IvanCCO/ValorantCompBot/internal/config"
 	"github.com/bwmarrin/discordgo"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -19,8 +21,17 @@ var (
 )
 
 func init() {
-	Token = ""
-	PREFIX = "!V"
+	err := godotenv.Load("../../.env")
+	if err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
+
+	disc := os.Getenv("DISCORD_TOKEN")
+	if disc == "" {
+		log.Fatal("VALORANT_API_PATH not found in .env file")
+	}
+
+	Token = disc
 }
 
 func main() {
