@@ -7,8 +7,8 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/IvanCCO/ValorantCompBot/cmd"
 	"github.com/IvanCCO/ValorantCompBot/config"
+	"github.com/IvanCCO/ValorantCompBot/internal/commands"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -86,7 +86,7 @@ func commandHandler(discord *discordgo.Session, message *discordgo.MessageCreate
 }
 
 func registerCommands() {
-	CmdHandler.Register("sobre", cmd.AboutCommand, "Sobre o ValorantCompBot")
-	CmdHandler.Register("ajuda", cmd.HelpCommand, "Mostra os comandos disponíveis e sua descrição")
-	CmdHandler.Register("aleatorio", cmd.RandomCommand, "Composição aleatória de Valorant - Atualmente mocado")
+	CmdHandler.Register("sobre", commands.AboutCommand, "Sobre o ValorantCompBot")
+	CmdHandler.Register("ajuda", commands.HelpCommand, "Mostra os comandos disponíveis e sua descrição")
+	CmdHandler.Register("aleatorio", commands.RandomCommand, "Composição aleatória de Valorant - Atualmente mocado")
 }
